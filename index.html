@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>استبيان صندوق تزيين المناسبات</title>
+<meta name="description" content="شاركنا رأيك: صندوق زينة جاهز لمناسبتك">
+<!-- لمعاينة الرابط في واتساب: بعد نشر الموقع ضع الرابط الكامل للصورة هنا -->
+<meta property="og:title" content="استبيان صندوق تزيين المناسبات">
+<meta property="og:description" content="شاركنا رأيك في فكرة صندوق زينة جاهز للمناسبات">
+<meta property="og:image" content="images/box.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FBF6F0;--card:#fff;--ink:#2B2230;--soft:#76697A;--plum:#7A3E65;--plumL:#F3E8EF;--gold:#C49A3C;--line:#E9DFD5;--red:#B5432F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;font-size:17px;line-height:1.6}
+.wrap{max-width:640px;margin:0 auto;padding:16px 16px 120px}
+.hero{border-radius:20px;overflow:hidden;background:#F4E6D6}
+.hero img{width:100%;display:block}
+h1{font-size:26px;margin:20px 0 8px;line-height:1.35}
+h2{font-size:21px;margin:0 0 6px;line-height:1.4}
+.lead{color:var(--soft);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin:0 0 16px}
+.q{margin:0 0 12px;font-weight:700}
+.req{color:var(--red)}
+.hint{color:var(--soft);font-size:14px;margin:-6px 0 12px}
+.opt{display:flex;align-items:center;gap:12px;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;margin:0 0 8px;cursor:pointer;background:#fff;user-select:none}
+.opt input{width:20px;height:20px;accent-color:var(--plum);flex:none;margin:0}
+.opt.sel{border-color:var(--plum);background:var(--plumL)}
+.other-txt{width:100%;margin:2px 0 8px;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;font:inherit}
+input[type=text],input[type=tel],input[type=number],textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font:inherit;background:#fff}
+textarea{min-height:90px;resize:vertical}
+input:focus,textarea:focus{outline:none;border-color:var(--plum)}
+.err{color:var(--red);font-size:14px;margin:8px 0 0;display:none}
+.card.bad .err{display:block}
+.card.bad{border-color:var(--red)}
+.btns{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,rgba(251,246,240,0),var(--bg) 35%);padding:24px 16px calc(16px + env(safe-area-inset-bottom))}
+.btns .in{max-width:640px;margin:0 auto;display:flex;gap:10px}
+button{font:inherit;font-weight:700;border:0;border-radius:14px;padding:15px 18px;cursor:pointer}
+.primary{background:var(--plum);color:#fff;flex:1}
+.ghost{background:#fff;color:var(--plum);border:1.5px solid var(--line)}
+button:disabled{opacity:.6}
+/* items */
+.item{border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:0 0 14px;background:#fff}
+.item.bad{border-color:var(--red)}
+.item .ph{display:none;background:#F4ECE3;aspect-ratio:4/3;border-radius:12px;overflow:hidden;margin:0 0 12px}
+.item .ph.open{display:block}
+.nrow{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 10px}
+.nrow .name{margin:0}
+.pbtn{flex:none;background:#fff;color:#1a6fd6;border:1.5px solid #1a6fd6;border-radius:20px;padding:5px 12px;font-size:13.5px;font-weight:700}
+.pbtn.on{background:#1a6fd6;color:#fff}
+.item .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.item .ph.fit{background:#fff}.item .ph.fit img{object-fit:contain}
+.item .ph .zoom{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.55);color:#fff;font-size:13px;border-radius:20px;padding:3px 10px}
+.item .body{padding:12px 14px 14px}
+.item .name{font-weight:700;margin:0 0 10px}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;padding:10px 4px;font-size:14.5px;font-weight:500;background:#fff;border:1.5px solid var(--line);color:var(--ink);border-radius:10px}
+.seg button.on{background:var(--plum);border-color:var(--plum);color:#fff}
+/* lightbox */
+.lb{position:fixed;inset:0;background:rgba(20,12,18,.92);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:80vh;border-radius:12px}
+.lb .cap{position:absolute;bottom:30px;left:0;right:0;text-align:center;color:#fff;font-weight:700;padding:0 20px}
+.lb .x{position:absolute;top:16px;left:16px;background:#fff;color:var(--ink);border-radius:50%;width:44px;height:44px;padding:0;font-size:22px}
+.center{text-align:center}
+.done-ic{font-size:56px;margin:30px 0 0}
+.share{display:block;width:100%;margin:10px 0 0;text-align:center;text-decoration:none;background:#25D366;color:#fff;border-radius:14px;padding:15px;font-weight:700}
+.hidden{display:none!important}
+.card.done .opt:not(.sel){display:none}
+.card.done .opt.sel::after{content:"تغيير";margin-inline-start:auto;font-size:14px;color:var(--plum);font-weight:500}
+
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="btns" id="btns"><div class="in">
+  <button class="ghost" id="back">السابق</button>
+  <button class="primary" id="next">التالي</button>
+</div></div>
+<div class="lb" id="lb"><button class="x" id="lbx" aria-label="إغلاق">×</button><img id="lbimg" alt=""><div class="cap" id="lbcap"></div></div>
+
+<script>
+/* =========================================================
+   الإعدادات: تُعبّأ من نموذج Google (لا تعدّلها يدوياً إلا إن كنت متأكداً)
+   ========================================================= */
+const CONFIG = {
+  liveHost: "", // لو ربطت نطاقاً خاصاً بالموقع اكتبه هنا
+  formResponseUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfCmKS-5YiUEQ8bIq9jQw6hJ0NkFO45to-ybFdYwYxUcmlNJQ/formResponse",
+  entries: {
+    host: "331313715", lastOcc: "806520070", spend: "2113281646", how: "449844467", hardest: "230329797",
+    wouldUse: "1460542047", occasion: "1665577095",
+    items: ["244192466","1404568223","1349679580","798456570","1343393065","2001845237","110807279","842999160","765745444","856421519","31603417"],
+    missing: "593223318",
+    priceCheap: "1960866885", priceGood: "1900472303", priceExpensive: "1912710901", priceTooExpensive: "1269195247",
+    launch: "1248142033", phone: "852510656",
+    gender: "1462475500", age: "1323342620", city: "1554837456", comments: "1781521428"
+  }
+};
+/* ========================================================= */
+
+const OCC = ["احتفالية مولود جديد","حفلة تخرج","رمضان","عيد الفطر أو عيد الأضحى","اليوم الوطني أو يوم التأسيس","يوم ميلاد","تهنئة بإنجاز (حفظ القرآن، شهادة، ترقية...)","حفلة توديع عزوبية","خطوبة أو ملكة"];
+const NO_BUY = "لا أتوقع أن أشتريه لأي مناسبة";
+const HOST_NONE = "لم أستضف أي مناسبة";
+const ITEMS = ["باقات زهور صناعية مع مزهريات صغيرة","مفرش طاولة","شموع","زينة متدلية","إضاءة خيطية","بطاقات فارغة ليكتب الضيوف رسائلهم","بطاقات صغيرة لأسماء الأطباق","ستارة خلفية للتصوير","إكسسوارات تصوير","تحفة أو مجسم للطاولة حسب المناسبة (مثل هلال رمضان)","أكواب وصحون"];
+const IMGS = ITEMS.map((_,i)=>`images/items/${i+1}.jpg`);
+/* اسم المناسبة المختارة بدون الشرح بين القوسين */
+const occName = () => { const o = A.occasion==="__other__" ? (A.occasion_other||"").trim() : (A.occasion||""); return o ? "لمناسبة " + o.replace(/\s*\(.*\)\s*/,"") : "لمناسبتك"; };
+const chosenItems = () => { const it = A.items||[], clean = l => l.map(n=>n.replace(/\s*\(.*\)\s*/,""));
+  let l = ITEMS.filter((_,i)=>it[i]==="ضروري"); if (l.length) return {label:"العناصر التي اخترت أنها ضرورية", list:clean(l)};
+  l = ITEMS.filter((_,i)=>it[i]==="جميل لو وُجد"); return l.length ? {label:"العناصر التي اخترت أنها جميلة لو وُجدت", list:clean(l)} : null; };
+const COLS = ["ضروري","جميل لو وُجد","لا أحتاجه"];
+
+const A = {}; // الإجابات
+const NUM_MSG = "اكتب المبلغ بالأرقام الإنجليزية فقط";
+
+/* الخطوات: page = رقم القسم في نموذج Google (يبدأ من 0) */
+const STEPS = [
+ {id:"intro", intro:true},
+ {id:"s1", page:0, title:"عن المناسبات", qs:[
+   {key:"host", type:"radio", q:"خلال آخر 12 شهراً، كم مرة استضفت مناسبة أو تجمعاً؟ (في البيت أو في أي مكان)", opts:[HOST_NONE,"مرة أو مرتين","من 3 إلى 5 مرات","أكثر من 5 مرات"]}]},
+ {id:"s2", page:1, title:"آخر مناسبة استضفتها", lead:"أسئلة عما حدث فعلاً، لا عما تتوقعه.", show:()=>A.host && A.host!==HOST_NONE, qs:[
+   {key:"lastOcc", type:"radio", other:true, q:"ما آخر مناسبة استضفتها؟", opts:OCC},
+   {key:"spend", type:"radio", q:"كم صرفت تقريباً على الزينة في تلك المناسبة؟ (الزينة فقط، بدون الأكل والضيافة)", opts:["لم أصرف شيئاً","أقل من 100 ريال","من 100 إلى 199 ريال","من 200 إلى 399 ريال","من 400 إلى 699 ريال","700 ريال أو أكثر","لا أذكر"]},
+   {key:"how", type:"check", other:true, q:"كيف جهّزت الزينة؟ (اختر كل ما ينطبق)", opts:["اشتريتها من محلات","طلبتها أونلاين","استخدمت زينة موجودة عندي","استعنت بمنسق أو شركة تنسيق","ساعدني أحد من العائلة أو الأصدقاء"]},
+   {key:"hardest", type:"check", max:2, q:"ما أصعب شيء في تجهيز الزينة بالنسبة لك؟ (اختر شيئين كحد أقصى)", opts:["الوقت والمشاوير للتسوق","اختيار ألوان وقطع متناسقة","التكلفة","التركيب والترتيب","التخزين أو التخلص منها بعد المناسبة","لا شيء، الأمر سهل عليّ"]}]},
+ {id:"s3", page:2, title:"فكرة المنتج", lead:"صندوق يصلك إلى البيت فيه مجموعة قطع زينة منسقة لمناسبة معينة (مثل التخرج أو رمضان أو مولود جديد)، تفتحه وترتّب الزينة بنفسك.", img:"images/box.png", qs:[
+   {key:"wouldUse", type:"radio", q:"لو كان هذا الصندوق (المذكور في الأعلى) متوفراً في آخر مناسبة استضفتها، ماذا كنت ستفعل على الأرجح؟", opts:["كنت سأشتريه بدل طريقتي المعتادة","كنت سأفكر فيه","كنت سأستمر بطريقتي المعتادة"], show:()=>A.host!==HOST_NONE},
+   {key:"occasion", type:"radio", q:"لو قررت أن تشتري هذا الصندوق (المذكور في الأعلى) لمناسبة واحدة فقط، فأي مناسبة ستكون على الأرجح؟", opts:OCC, other:true, otherLabel:"مناسبة أخرى", otherPh:"اكتب اسم المناسبة", after:[NO_BUY]}]},
+ {id:"s4", page:3, title:"محتوى الصندوق", lead:()=>`تخيّل أنك ستطلب صندوقاً ${occName()}.`, show:()=>A.occasion!==NO_BUY, items:true, qs:[
+   {key:"missing", type:"text", long:true, optional:true, q:"هل هناك عنصر مهم لم نذكره؟ (اختياري)"}]},
+ {id:"s5", page:4, title:"السعر", lead:()=>{ const c = chosenItems(); return `تخيّل صندوقاً ${occName()} لتجمّع من 4 إلى 6 أشخاص` + (c ? `، وفيه ${c.label}: ${c.list.join("، ")}.` : "."); }, show:()=>A.occasion!==NO_BUY, price:true, qs:[
+   {key:"priceCheap", type:"num", q:"عند أي سعر ستعتبر الصندوق رخيصاً لدرجة أنك تشك في جودته؟"},
+   {key:"priceGood", type:"num", q:"عند أي سعر ستعتبره صفقة جيدة وسعراً مناسباً؟"},
+   {key:"priceExpensive", type:"num", q:"عند أي سعر ستعتبره غالياً، لكنك قد تشتريه؟"},
+   {key:"priceTooExpensive", type:"num", q:"عند أي سعر ستعتبره غالياً جداً ولن تشتريه أبداً؟"}]},
+ {id:"s6", page:5, title:"قائمة الإطلاق", show:()=>A.occasion!==NO_BUY, qs:[
+   {key:"launch", type:"radio", q:"هل تريد الانضمام لقائمة الإطلاق والحصول على خصم 15% على أول طلب؟", opts:["نعم، أريد الانضمام والخصم","لا، شكراً"]}]},
+ {id:"s7", page:6, title:"رقم الجوال", show:()=>A.occasion!==NO_BUY && A.launch==="نعم، أريد الانضمام والخصم", qs:[
+   {key:"phone", type:"tel", q:"رقم الجوال (للتواصل عند الإطلاق وإرسال الخصم فقط)", ph:"05xxxxxxxx"}]},
+ {id:"s8", page:7, title:"عنك", qs:[
+   {key:"gender", type:"radio", q:"الجنس", opts:["ذكر","أنثى"]},
+   {key:"age", type:"radio", q:"الفئة العمرية", opts:["أقل من 18","من 18 إلى 24","من 25 إلى 34","من 35 إلى 44","من 45 إلى 54","55 فأكثر"]},
+   {key:"city", type:"radio", other:true, q:"المدينة", opts:["الرياض","جدة","مكة المكرمة","المدينة المنورة","الدمام والخبر والظهران"]},
+   {key:"comments", type:"text", long:true, optional:true, q:"أي ملاحظة أو اقتراح؟ (اختياري)"}]},
+ {id:"done", done:true}
+];
+
+let cur = 0;
+const app = document.getElementById("app");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const visible = s => !s.show || s.show();
+const qVisible = q => !q.show || q.show();
+
+function render(){
+  const s = STEPS[cur];
+  window.scrollTo(0,0);
+  document.getElementById("btns").classList.toggle("hidden", !!s.done);
+  document.getElementById("back").classList.toggle("hidden", cur===0 || !!s.intro);
+  document.getElementById("next").textContent = s.intro ? "ابدأ" : (isLast() ? "إرسال" : "التالي");
+  if (s.intro){
+    app.innerHTML = `<div class="hero"><img src="images/box.png" alt="صندوق زينة جاهز للمناسبات"></div>
+      <h1>نعمل على فكرة منتج جديد يخص تجهيز المناسبات</h1>
+      <p class="lead">ونريد رأيك الصريح. لا توجد إجابات صحيحة أو خاطئة. إن لم تكن الفكرة مناسبة لك فهذه معلومة مهمة لنا أيضاً. إجاباتك سرية وتُستخدم لأغراض البحث فقط.</p>`;
+    return;
+  }
+  if (s.done){
+    const url = location.href.split("#")[0];
+    const MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const msg = encodeURIComponent("شاركت في استبيان قصير عن فكرة صندوق زينة جاهز للمناسبات، شارك برأيك أنت أيضاً: " + url);
+    app.innerHTML = `<div class="center"><div class="done-ic">🎉</div><h1>شكراً لك!</h1>
+      <p class="lead">رأيك يساعدنا كثيراً. لو تعرف أحداً يستضيف تجمعات أو مناسبات، أرسل له الاستبيان.</p>
+      <a class="share" href="${MOBILE ? "whatsapp://send?text="+msg : "https://web.whatsapp.com/send?text="+msg}" ${MOBILE ? "" : 'target="_blank" rel="noopener"'}>شارك الاستبيان عبر واتساب</a></div>`;
+    return;
+  }
+  const lead = typeof s.lead==="function" ? s.lead() : s.lead;
+  let h = `<h2>${esc(s.title)}</h2>${lead?`<p class="lead">${esc(lead)}</p>`:""}`;
+  if (s.img) h += `<div class="hero" style="margin:0 0 16px"><img src="${s.img}" alt=""></div>`;
+  if (s.items){
+    h += `<div class="card" id="c_items"><p class="q">ما العناصر التي تريدها أن تكون في الصندوق؟ اختر لكل عنصر <span class="req">*</span></p>`;
+    ITEMS.forEach((name,i)=>{
+      const v = (A.items||[])[i];
+      h += `<div class="item" id="it${i}"><div class="body"><div class="nrow"><p class="name">${i+1}. ${esc(name)}</p><button type="button" class="pbtn" data-i="${i}">صورة توضيحية</button></div>
+        <div class="ph${[8,10].includes(i)?" fit":""}" id="ph${i}"><img src="${IMGS[i]}" loading="lazy" alt="${esc(name)}"></div><div class="seg">${COLS.map(c=>`<button type="button" data-i="${i}" data-v="${esc(c)}" class="${v===c?"on":""}">${esc(c)}</button>`).join("")}</div></div></div>`;
+    });
+    h += `<p class="err">اختر إجابة لكل عنصر</p></div>`;
+  }
+  s.qs.filter(qVisible).forEach(q => h += renderQ(q));
+  app.innerHTML = h;
+  bind(s);
+}
+
+function renderQ(q){
+  const v = A[q.key];
+  const done = q.type==="radio" && v && v!=="__other__";
+  let h = `<div class="card ${q.type==="radio"?"one":""} ${done?"done":""}" id="c_${q.key}"><p class="q">${esc(q.q)} ${q.optional?"":'<span class="req">*</span>'}</p>`;
+  if (q.type==="radio" || q.type==="check"){
+    const t = q.type==="radio" ? "radio" : "checkbox";
+    const sel = x => t==="radio" ? v===x : (v||[]).includes(x);
+    q.opts.forEach(o => h += `<label class="opt ${sel(o)?"sel":""}"><input type="${t}" name="${q.key}" value="${esc(o)}" ${sel(o)?"checked":""}>${esc(o)}</label>`);
+    if (q.other){
+      const ok = A[q.key+"_other"]!=null && (t==="radio" ? v==="__other__" : (v||[]).includes("__other__"));
+      h += `<label class="opt ${ok?"sel":""}"><input type="${t}" name="${q.key}" value="__other__" ${ok?"checked":""}>${esc(q.otherLabel||"أخرى")}</label>
+            <input class="other-txt ${ok?"":"hidden"}" id="o_${q.key}" type="text" placeholder="${esc(q.otherPh||"اكتب هنا")}" value="${esc(A[q.key+"_other"]||"")}">`;
+    }
+    (q.after||[]).forEach(o => h += `<label class="opt ${sel(o)?"sel":""}"><input type="${t}" name="${q.key}" value="${esc(o)}" ${sel(o)?"checked":""}>${esc(o)}</label>`);
+  } else if (q.type==="text"){
+    h += q.long ? `<textarea id="f_${q.key}">${esc(v||"")}</textarea>` : `<input type="text" id="f_${q.key}" value="${esc(v||"")}">`;
+  } else if (q.type==="num"){
+    h += `<input type="text" inputmode="numeric" dir="ltr" class="num" id="f_${q.key}" value="${esc(v||"")}">`;
+  } else if (q.type==="tel"){
+    h += `<input type="tel" inputmode="tel" dir="ltr" id="f_${q.key}" placeholder="${q.ph}" value="${esc(v||"")}">`;
+  }
+  return h + `<p class="err" id="e_${q.key}">هذا السؤال مطلوب</p></div>`;
+}
+
+function bind(s){
+  app.querySelectorAll(".card.one").forEach(card => card.addEventListener("click", e => {
+    const lab = e.target.closest(".opt");
+    if (lab && card.classList.contains("done")){ e.preventDefault(); card.classList.remove("done"); }
+  }));
+  app.querySelectorAll("input.num").forEach(el => el.addEventListener("input", () => {
+    const card = el.closest(".card"), err = card.querySelector(".err");
+    A[el.id.slice(2)] = el.value.trim();
+    if (el.value && !/^[0-9]+$/.test(el.value)){ err.textContent = NUM_MSG; card.classList.add("bad"); }
+    else card.classList.remove("bad");
+  }));
+  app.querySelectorAll(".opt input").forEach(inp => inp.addEventListener("change", () => {
+    const key = inp.name, q = findQ(key);
+    if (inp.type==="radio"){ A[key] = inp.value; }
+    else {
+      let arr = [...app.querySelectorAll(`input[name="${key}"]:checked`)].map(x=>x.value);
+      if (q.max && arr.length > q.max){ inp.checked = false; arr = arr.filter(x=>x!==inp.value); }
+      A[key] = arr;
+    }
+    app.querySelectorAll(`input[name="${key}"]`).forEach(x => x.closest(".opt").classList.toggle("sel", x.checked));
+    const o = document.getElementById("o_"+key);
+    if (o){ const on = [...app.querySelectorAll(`input[name="${key}"][value="__other__"]`)].some(x=>x.checked); o.classList.toggle("hidden", !on); if(on) o.focus(); }
+    document.getElementById("c_"+key).classList.remove("bad");
+    const card = document.getElementById("c_"+key);
+    if (inp.type==="radio" && inp.value!=="__other__"){
+      card.classList.add("done");
+      setTimeout(() => {
+        const cards = [...app.querySelectorAll(".card")], nx = cards[cards.indexOf(card)+1];
+        if (nx) nx.scrollIntoView({behavior:"smooth", block:"center"});
+      }, 180);
+    }
+  }));
+  app.querySelectorAll(".other-txt").forEach(el => el.addEventListener("input", () => A[el.id.slice(2)+"_other"] = el.value));
+  app.querySelectorAll("textarea,input[type=text]:not(.other-txt):not(.num),input[type=tel]").forEach(el => el.addEventListener("input", () => { A[el.id.slice(2)] = el.value.trim(); el.closest(".card").classList.remove("bad"); }));
+  app.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
+    A.items = A.items || [];
+    const i = +b.dataset.i; A.items[i] = b.dataset.v;
+    b.parentNode.querySelectorAll("button").forEach(x => x.classList.toggle("on", x===b));
+    document.getElementById("it"+i).classList.remove("bad");
+    const ph = document.getElementById("ph"+i), pb = app.querySelector(`.pbtn[data-i="${i}"]`);
+    if (ph.classList.contains("open")){ ph.classList.remove("open"); pb.classList.remove("on"); pb.textContent = "صورة توضيحية"; }
+  }));
+  app.querySelectorAll(".pbtn").forEach(b => b.addEventListener("click", () => {
+    const open = document.getElementById("ph"+b.dataset.i).classList.toggle("open");
+    b.classList.toggle("on", open); b.textContent = open ? "إغلاق" : "صورة توضيحية";
+  }));
+}
+function rerenderIfNeeded(){ /* لا شيء: تُطبَّق الشروط عند الانتقال */ }
+function findQ(key){ for (const s of STEPS) for (const q of (s.qs||[])) if (q.key===key) return q; }
+
+function validate(s){
+  let ok = true, first = null;
+  const fail = el => { el.classList.add("bad"); ok = false; first = first || el; };
+  if (s.items){
+    ITEMS.forEach((_,i)=>{ if (!(A.items||[])[i]) { document.getElementById("it"+i).classList.add("bad"); ok=false; first = first || document.getElementById("it"+i); } });
+    if (!ok) document.getElementById("c_items").classList.add("bad");
+  }
+  s.qs.filter(qVisible).forEach(q => {
+    const card = document.getElementById("c_"+q.key), err = document.getElementById("e_"+q.key);
+    err.textContent = "هذا السؤال مطلوب";
+    const v = A[q.key];
+    if (q.optional) return;
+    if (q.type==="radio"){
+      if (!v) return fail(card);
+      if (v==="__other__" && !(A[q.key+"_other"]||"").trim()){ err.textContent="اكتب إجابتك في خانة أخرى"; return fail(card); }
+    } else if (q.type==="check"){
+      if (!v || !v.length) return fail(card);
+      if (v.includes("__other__") && !(A[q.key+"_other"]||"").trim()){ err.textContent="اكتب إجابتك في خانة أخرى"; return fail(card); }
+    } else if (q.type==="num"){
+      if (!v){ return fail(card); }
+      if (!/^[0-9]+$/.test(v) || Number(v)<=0){ err.textContent=NUM_MSG; return fail(card); }
+    } else if (q.type==="tel"){
+      const p = (v||"").replace(/\s|-/g,"");
+      if (!/^(\+?966|00966|0|٠)?[5٥][0-9٠-٩]{8}$/.test(p)){ err.textContent="اكتب رقم جوال سعودي صحيح، مثال: 0512345678"; return fail(card); }
+      A[q.key] = p;
+    } else if (!v) return fail(card);
+  });
+  if (ok && s.price){
+    const vals = ["priceCheap","priceGood","priceExpensive","priceTooExpensive"].map(k=>Number(A[k]));
+    for (let i=1;i<4;i++) if (vals[i] < vals[i-1]){
+      const k = ["priceCheap","priceGood","priceExpensive","priceTooExpensive"][i];
+      document.getElementById("e_"+k).textContent = "يُفترض أن يكون هذا السعر أعلى من أو يساوي السعر في السؤال السابق";
+      fail(document.getElementById("c_"+k)); break;
+    }
+  }
+  if (first) first.scrollIntoView({behavior:"smooth", block:"center"});
+  return ok;
+}
+
+function nextIndex(from, dir){
+  let i = from + dir;
+  while (i>0 && i<STEPS.length-1 && !visible(STEPS[i])) i += dir;
+  return i;
+}
+function isLast(){ return nextIndex(cur,1) === STEPS.length-1; }
+
+document.getElementById("next").addEventListener("click", async () => {
+  const s = STEPS[cur];
+  if (!s.intro && !validate(s)) return;
+  if (isLast()){ await submit(); return; }
+  cur = nextIndex(cur, 1); render();
+});
+document.getElementById("back").addEventListener("click", () => { cur = nextIndex(cur, -1); render(); });
+document.getElementById("lbx").addEventListener("click", () => document.getElementById("lb").classList.remove("on"));
+document.getElementById("lb").addEventListener("click", e => { if (e.target.id==="lb") e.currentTarget.classList.remove("on"); });
+
+async function submit(){
+  const btn = document.getElementById("next");
+  btn.disabled = true; btn.textContent = "جارٍ الإرسال...";
+  const E = CONFIG.entries, fd = new URLSearchParams();
+  const putChoice = (key, val) => {
+    if (!E[key] || val==null) return;
+    (Array.isArray(val) ? val : [val]).forEach(x => {
+      if (x==="__other__"){ fd.append("entry."+E[key], "__other_option__"); fd.append("entry."+E[key]+".other_option_response", A[key+"_other"]||""); }
+      else fd.append("entry."+E[key], x);
+    });
+    fd.append("entry."+E[key]+"_sentinel", "");
+  };
+  STEPS.forEach(s => {
+    if (s.page==null || !visible(s)) return;
+    if (s.items) (A.items||[]).forEach((v,i) => { if (E.items[i] && v) fd.append("entry."+E.items[i], v); });
+    s.qs.filter(qVisible).forEach(q => {
+      const v = A[q.key];
+      if (q.type==="radio" || q.type==="check") putChoice(q.key, v);
+      else if (E[q.key] && v) fd.append("entry."+E[q.key], v);
+    });
+  });
+  const fbzx = String(Math.floor(Math.random()*9e17));
+  fd.append("fvv","1"); fd.append("pageHistory","0"); fd.append("fbzx", fbzx);
+  fd.append("partialResponse", JSON.stringify([null,null,fbzx])); fd.append("submissionTimestamp", String(Date.now()));
+  // وضع المعاينة: إذا لم تُعبّأ معرّفات الحقول لا يُرسل أي شيء إلى النموذج
+  const LIVE = /github\.io$/.test(location.hostname) || (CONFIG.liveHost && location.hostname===CONFIG.liveHost);
+  if (!E.host || !LIVE){ cur = STEPS.length-1; render(); return; }
+  try {
+    await fetch(CONFIG.formResponseUrl, {method:"POST", mode:"no-cors", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body: fd.toString()});
+    cur = STEPS.length-1; render();
+  } catch(e){
+    btn.disabled = false; btn.textContent = "إرسال";
+    const n = document.createElement("p"); n.className = "err"; n.style.display = "block"; n.style.textAlign = "center";
+    n.textContent = "تعذّر الإرسال. تأكد من اتصالك بالإنترنت وحاول مرة أخرى."; app.appendChild(n);
+  }
+}
+
+render();
+</script>
+</body>
+</html>
