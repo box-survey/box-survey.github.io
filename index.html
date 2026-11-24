@@ -21,6 +21,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans A
 h1{font-size:26px;margin:20px 0 8px;line-height:1.35}
 h2{font-size:21px;margin:0 0 6px;line-height:1.4}
 .lead{color:var(--soft);margin:0 0 16px}
+.lead.big{font-size:22px;font-weight:700;line-height:1.6;color:var(--ink);margin-top:18px}
+h1.top{margin:4px 0 16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin:0 0 16px}
 .q{margin:0 0 12px;font-weight:700}
 .req{color:var(--red)}
@@ -104,6 +106,10 @@ const OCC = ["احتفالية مولود جديد","حفلة تخرج","رمض�
 const NO_BUY = "لا أتوقع أن أشتريه لأي مناسبة";
 const HOST_NONE = "لم أستضف أي مناسبة";
 const ITEMS = ["باقات زهور صناعية مع مزهريات صغيرة","مفرش طاولة","شموع","زينة متدلية","إضاءة خيطية","بطاقات فارغة ليكتب الضيوف رسائلهم","بطاقات صغيرة لأسماء الأطباق","ستارة خلفية للتصوير","إكسسوارات تصوير","تحفة أو مجسم للطاولة حسب المناسبة (مثل هلال رمضان)","أكواب وصحون"];
+/* ترتيب عشوائي لكل شخص لتقليل تحيز الترتيب */
+const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const OCC_R = shuffle(OCC);
+const ITEM_ORDER = shuffle(ITEMS.map((_,i)=>i));
 const IMGS = ITEMS.map((_,i)=>`images/items/${i+1}.jpg`);
 /* اسم المناسبة المختارة بدون الشرح بين القوسين */
 const occName = () => { const o = A.occasion==="__other__" ? (A.occasion_other||"").trim() : (A.occasion||""); return o ? "لمناسبة " + o.replace(/\s*\(.*\)\s*/,"") : "لمناسبتك"; };
@@ -121,13 +127,13 @@ const STEPS = [
  {id:"s1", page:0, title:"عن المناسبات", qs:[
    {key:"host", type:"radio", q:"خلال آخر 12 شهراً، كم مرة استضفت مناسبة أو تجمعاً؟ (في البيت أو في أي مكان)", opts:[HOST_NONE,"مرة أو مرتين","من 3 إلى 5 مرات","أكثر من 5 مرات"]}]},
  {id:"s2", page:1, title:"آخر مناسبة استضفتها", lead:"أسئلة عما حدث فعلاً، لا عما تتوقعه.", show:()=>A.host && A.host!==HOST_NONE, qs:[
-   {key:"lastOcc", type:"radio", other:true, q:"ما آخر مناسبة استضفتها؟", opts:OCC},
+   {key:"lastOcc", type:"radio", other:true, q:"ما آخر مناسبة استضفتها؟", opts:OCC_R},
    {key:"spend", type:"radio", q:"كم صرفت تقريباً على الزينة في تلك المناسبة؟ (الزينة فقط، بدون الأكل والضيافة)", opts:["لم أصرف شيئاً","أقل من 100 ريال","من 100 إلى 199 ريال","من 200 إلى 399 ريال","من 400 إلى 699 ريال","700 ريال أو أكثر","لا أذكر"]},
    {key:"how", type:"check", other:true, q:"كيف جهّزت الزينة؟ (اختر كل ما ينطبق)", opts:["اشتريتها من محلات","طلبتها أونلاين","استخدمت زينة موجودة عندي","استعنت بمنسق أو شركة تنسيق","ساعدني أحد من العائلة أو الأصدقاء"]},
    {key:"hardest", type:"check", max:2, q:"ما أصعب شيء في تجهيز الزينة بالنسبة لك؟ (اختر شيئين كحد أقصى)", opts:["الوقت والمشاوير للتسوق","اختيار ألوان وقطع متناسقة","التكلفة","التركيب والترتيب","التخزين أو التخلص منها بعد المناسبة","لا شيء، الأمر سهل عليّ"]}]},
  {id:"s3", page:2, title:"فكرة المنتج", lead:"صندوق يصلك إلى البيت فيه مجموعة قطع زينة منسقة لمناسبة معينة (مثل التخرج أو رمضان أو مولود جديد)، تفتحه وترتّب الزينة بنفسك.", img:"images/box.png", qs:[
    {key:"wouldUse", type:"radio", q:"لو كان هذا الصندوق (المذكور في الأعلى) متوفراً في آخر مناسبة استضفتها، ماذا كنت ستفعل على الأرجح؟", opts:["كنت سأشتريه بدل طريقتي المعتادة","كنت سأفكر فيه","كنت سأستمر بطريقتي المعتادة"], show:()=>A.host!==HOST_NONE},
-   {key:"occasion", type:"radio", q:"لو قررت أن تشتري هذا الصندوق (المذكور في الأعلى) لمناسبة واحدة فقط، فأي مناسبة ستكون على الأرجح؟", opts:OCC, other:true, otherLabel:"مناسبة أخرى", otherPh:"اكتب اسم المناسبة", after:[NO_BUY]}]},
+   {key:"occasion", type:"radio", q:"لو قررت أن تشتري هذا الصندوق (المذكور في الأعلى) لمناسبة واحدة فقط، فأي مناسبة ستكون على الأرجح؟", opts:OCC_R, other:true, otherLabel:"مناسبة أخرى", otherPh:"اكتب اسم المناسبة", after:[NO_BUY]}]},
  {id:"s4", page:3, title:"محتوى الصندوق", lead:()=>`تخيّل أنك ستطلب صندوقاً ${occName()}.`, show:()=>A.occasion!==NO_BUY, items:true, qs:[
    {key:"missing", type:"text", long:true, optional:true, q:"هل هناك عنصر مهم لم نذكره؟ (اختياري)"}]},
  {id:"s5", page:4, title:"السعر", lead:()=>{ const c = chosenItems(); return `تخيّل صندوقاً ${occName()} لتجمّع من 4 إلى 6 أشخاص` + (c ? `، وفيه ${c.label}: ${c.list.join("، ")}.` : "."); }, show:()=>A.occasion!==NO_BUY, price:true, qs:[
@@ -160,9 +166,9 @@ function render(){
   document.getElementById("back").classList.toggle("hidden", cur===0 || !!s.intro);
   document.getElementById("next").textContent = s.intro ? "ابدأ" : (isLast() ? "إرسال" : "التالي");
   if (s.intro){
-    app.innerHTML = `<div class="hero"><img src="images/box.png" alt="صندوق زينة جاهز للمناسبات"></div>
-      <h1>نعمل على فكرة منتج جديد يخص تجهيز المناسبات</h1>
-      <p class="lead">ونريد رأيك الصريح. لا توجد إجابات صحيحة أو خاطئة. إن لم تكن الفكرة مناسبة لك فهذه معلومة مهمة لنا أيضاً. إجاباتك سرية وتُستخدم لأغراض البحث فقط.</p>`;
+    app.innerHTML = `<h1 class="top">نعمل على فكرة منتج جديد يخص تجهيز المناسبات</h1>
+      <div class="hero"><img src="images/box.png" alt="صندوق زينة جاهز للمناسبات"></div>
+      <p class="lead big">ونريد رأيك الصريح. لا توجد إجابات صحيحة أو خاطئة. إن لم تكن الفكرة مناسبة لك فهذه معلومة مهمة لنا أيضاً. إجاباتك سرية وتُستخدم لأغراض البحث فقط.</p>`;
     return;
   }
   if (s.done){
@@ -179,9 +185,9 @@ function render(){
   if (s.img) h += `<div class="hero" style="margin:0 0 16px"><img src="${s.img}" alt=""></div>`;
   if (s.items){
     h += `<div class="card" id="c_items"><p class="q">ما العناصر التي تريدها أن تكون في الصندوق؟ اختر لكل عنصر <span class="req">*</span></p>`;
-    ITEMS.forEach((name,i)=>{
-      const v = (A.items||[])[i];
-      h += `<div class="item" id="it${i}"><div class="body"><div class="nrow"><p class="name">${i+1}. ${esc(name)}</p><button type="button" class="pbtn" data-i="${i}">صورة توضيحية</button></div>
+    ITEM_ORDER.forEach((i,k)=>{
+      const name = ITEMS[i], v = (A.items||[])[i];
+      h += `<div class="item" id="it${i}"><div class="body"><div class="nrow"><p class="name">${k+1}. ${esc(name)}</p><button type="button" class="pbtn" data-i="${i}">صورة توضيحية</button></div>
         <div class="ph${[8,10].includes(i)?" fit":""}" id="ph${i}"><img src="${IMGS[i]}" loading="lazy" alt="${esc(name)}"></div><div class="seg">${COLS.map(c=>`<button type="button" data-i="${i}" data-v="${esc(c)}" class="${v===c?"on":""}">${esc(c)}</button>`).join("")}</div></div></div>`;
     });
     h += `<p class="err">اختر إجابة لكل عنصر</p></div>`;
@@ -269,7 +275,7 @@ function validate(s){
   let ok = true, first = null;
   const fail = el => { el.classList.add("bad"); ok = false; first = first || el; };
   if (s.items){
-    ITEMS.forEach((_,i)=>{ if (!(A.items||[])[i]) { document.getElementById("it"+i).classList.add("bad"); ok=false; first = first || document.getElementById("it"+i); } });
+    ITEM_ORDER.forEach(i=>{ if (!(A.items||[])[i]) { document.getElementById("it"+i).classList.add("bad"); ok=false; first = first || document.getElementById("it"+i); } });
     if (!ok) document.getElementById("c_items").classList.add("bad");
   }
   s.qs.filter(qVisible).forEach(q => {
